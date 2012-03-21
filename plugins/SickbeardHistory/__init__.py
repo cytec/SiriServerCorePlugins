@@ -15,26 +15,30 @@ from plugin import *
 sb_host = APIKeyForAPI("sickbeard_host")
 sb_apikey = APIKeyForAPI("sickbeard_api_key")
 
-class sickBeard(Plugin):   
-
-	res = {
-		'getStatus': {
-			'de-DE': '.*serien status.*',
-			'en-US': '.*(sickbeard|series) status.*',
-			'en-GB': '.*(sickbeard|series) status.*'
-		},
-		'statusSay': {
-			'de-DE': 'Deine letzten 5 Downloads:',
-			'en-US': 'your last 5 Downloads:',
-			'en-GB': 'your last 5 Downloads:'
-		}
+res = {
+	'getStatus': {
+		'de-DE': '.*serien status.*',
+		'en-US': '.*(sickbeard|series) status.*',
+		'en-GB': '.*(sickbeard|series) status.*'
+	},
+	'statusSay': {
+		'de-DE': 'Deine letzten 5 Downloads:',
+		'en-US': 'your last 5 Downloads:',
+		'en-GB': 'your last 5 Downloads:'
 	}
+}
 
+helpPhrases = {
+	'en-US': 'Whats my Sickbeard status, Series status',
+	'de-DE': 'Wie ist mein Serien Status, Serien Status'
+}
+
+class sickBeard(Plugin):   
 	@register("de-DE", res['getStatus']['de-DE'])
 	@register("en-US", res['getStatus']['en-US'])
 	@register("en-GB", res['getStatus']['en-GB'])
 	def sb_history(self, speech, language):
-		self.say(sickBeard.res['statusSay'][language])
+		self.say(res['statusSay'][language])
 		SearchURL = u''+ sb_host + '/api/' + sb_apikey + '/?cmd=history&limit=5&type=downloaded'
 		jsonResponse = urllib2.urlopen(SearchURL).read()
 		jsonDecoded = json.JSONDecoder().decode(jsonResponse)
