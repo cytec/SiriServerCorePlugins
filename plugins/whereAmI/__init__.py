@@ -14,13 +14,31 @@ from siriObjects.systemObjects import GetRequestOrigin, Location
 from siriObjects.uiObjects import AddViews, AssistantUtteranceView
 from siriObjects.localsearchObjects import MapItem, MapItemSnippet
 
-geonames_user="test2"
- 
+res = {
+    'command': {
+        'en-US': u'(Where am I.*)|(What is my location.*)',
+        'de-DE': u'Wo bin ich.*',
+        'fr-FR': u'(Où suis-je.*)'
+    },
+    'answer': {
+        'en-US': u'Your location',
+        'de-DE': u'Dein Standort',
+        'fr-FR': u'Votre position'
+    }
+}
+
+helpPhrases = {
+    'en-US': u'Where am I, What is my location',
+    'de-DE': u'Wo bin ich',
+    'fr-FR': u'Où suis-je'
+}
+
+
 class whereAmI(Plugin):
     
-    @register("de-DE", "(Wo bin ich.*)")
-    @register("fr-FR", u'(Où suis-je.*)')    
-    @register("en-US", "(Where am I.*)|(What is my location.*)")
+    @register("de-DE", res['command']['de-DE'])
+    @register("fr-FR", res['command']['fr-FR'])    
+    @register("en-US", res['command']['en-US'])
     def whereAmI(self, speech, language):
         location = self.getCurrentLocation(force_reload=True,accuracy=GetRequestOrigin.desiredAccuracyBest)
         url = "http://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&sensor=false&language={2}".format(str(location.latitude),str(location.longitude), language)
@@ -44,13 +62,7 @@ class whereAmI(Plugin):
                     city=""
                 countryCode = filter(lambda x: True if "country" in x['types'] else False, components)[0]['short_name']
                 view = AddViews(self.refId, dialogPhase="Completion")
-                if language == "de-DE":
-                    the_header="Dein Standort"
-                elif language == 'fr-FR':
-                    the_header="Votre position"
-                else:
-                    self.say("This is your location {0}".format(self.user_name()))
-                    the_header="Your location"
+                the_header = res['answer'][language]
         view = AddViews(self.refId, dialogPhase="Completion")
         mapsnippet = MapItemSnippet(items=[MapItem(label=postalCode+" "+city, street=street, city=city, postalCode=postalCode, latitude=location.latitude, longitude=location.longitude, detailType="CURRENT_LOCATION")])
         view.views = [AssistantUtteranceView(speakableText=the_header, dialogIdentifier="Map#whereAmI"), mapsnippet]
