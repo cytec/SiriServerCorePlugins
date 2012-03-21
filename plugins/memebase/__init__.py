@@ -14,39 +14,43 @@ from siriObjects.uiObjects import AddViews, AssistantUtteranceView
 from siriObjects.answerObjects import AnswerSnippet, AnswerObject, AnswerObjectLine
 
 
-class memebase(Plugin):
-
-	res = {
-		'latestmeme': {
-			'de-DE': '.*neuste.*meme.*',
-			'en-US': '.*latest meme.*'
-		},
-		'lasttroll': {
-			'de-DE': '.*(problem|troll|trollface).*',
-			'en-US': '.*(problem|troll|trollface).*'
-		},
-		'fffuuu': {
-			'de-DE': '.*(fuck|fffuuu|ficken|scheiße).*',
-			'en-US': '.*(fuck|fffuuu|shit|fuck you).*'
-		},
-		'yuno': {
-			'de-DE': '.*(wieso|warum|y u no|why you no|why you know).*',
-			'en-US': '.*(y u no|why you no|why you know|why you not).*'
-		},
-		'megusta': {
-			'de-DE': '.*(me gusta|mag ich|i like).*',
-			'en-US': '.*(me gusta|i like).*'
-		},
-		'likeaboss': {
-			'de-DE': '.*(like a boss|like boss|wie ein boss|wie ein schef).*',
-			'en-US': '.*(like a boss|like boss).*'
-		},
-		'likeasir': {
-			'de-DE': '.*(like a sir|like sir|like a gentleman|wie ein gentleman|wie ein sir).*',
-			'en-US': '.*(like a sir|like sir|like a gentleman).*'
-		}
+res = {
+	'latestmeme': {
+		'de-DE': u'.*neuste.*meme.*',
+		'en-US': u'.*latest meme.*'
+	},
+	'lasttroll': {
+		'de-DE': u'.*(problem|troll|trollface).*',
+		'en-US': u'.*(problem|troll|trollface).*'
+	},
+	'fffuuu': {
+		'de-DE': u'.*(fuck|fffuuu|ficken|scheiße).*',
+		'en-US': u'.*(fuck|fffuuu|shit|fuck you).*'
+	},
+	'yuno': {
+		'de-DE': u'.*(wieso|warum|y u no|why you no|why you know).*',
+		'en-US': u'.*(y u no|why you no|why you know|why you not).*'
+	},
+	'megusta': {
+		'de-DE': u'.*(me gusta|mag ich|i like).*',
+		'en-US': u'.*(me gusta|i like).*'
+	},
+	'likeaboss': {
+		'de-DE': u'.*(like a boss|like boss|wie ein boss|wie ein schef).*',
+		'en-US': u'.*(like a boss|like boss).*'
+	},
+	'likeasir': {
+		'de-DE': u'.*(like a sir|like sir|like a gentleman|wie ein gentleman|wie ein sir).*',
+		'en-US': u'.*(like a sir|like sir|like a gentleman).*'
 	}
+}
 
+helpPhrases = {
+	'en-US': u'latest meme, troll, trollface, fffuuu, shit, fuck you, y u no, why you no, why you know, me gusta, i like, like a boss, like a sir',
+	'de-DE': u'neuste meme, problem, troll, trollface, fuck, ficken, scheiße, wieso, warum, y u no, me gusta, mag ich, wie ein boss, wie ein sir'
+}
+
+class memebase(Plugin):
 	@register("de-DE", res['latestmeme']['de-DE'])
 	@register("en-US", res['latestmeme']['en-US'])
 	def get_latestmeme(self, speech, language):
