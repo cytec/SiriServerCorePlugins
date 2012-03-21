@@ -8,16 +8,20 @@ import urllib
 import re
 from BeautifulSoup import BeautifulSoup
 
-class wissen(Plugin):
-	res = {
-        'wissen': {
-            'de-DE': '.*wissen.*'
-        },
-        'zitat': {
-            'de-DE': '.*zitat.*'
-        }
-    }
+res = {
+	'wissen': {
+		'de-DE': '.*wissen.*'
+	},
+	'zitat': {
+		'de-DE': '.*zitat.*'
+	}
+}
 
+helpPhrases = {
+	'de-DE': 'Wissen, Zitat'
+}
+
+class wissen(Plugin):
 	@register("de-DE", res['wissen']['de-DE'])
 	def wissen_get(self, speech, language):
 		html = urllib.urlopen("http://unnuetzeswissen.info/zufaelliges-wissen.php").read()
