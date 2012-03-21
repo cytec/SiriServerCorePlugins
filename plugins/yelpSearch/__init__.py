@@ -18,35 +18,44 @@ from siriObjects.localsearchObjects import Business, MapItem, MapItemSnippet, Ra
 
 yelp_api_key = APIKeyForAPI("yelp")
 
-class yelpSearch(Plugin):
-     res = {
-          'searchString': {
-               'en-US': '(find|show|where).* (nearest|nearby|closest) (.*)',
-               'en-GB': '(find|show|where).* (nearest|nearby|closest) (.*)',
-               'de-DE': '(finde|zeige|wo).* (n\xe4chste|nächstes|n\xe4chstes|nahe|in der n\xe4he|in der umgebung) (.*)'
-          },
-          'searching': {
-               'en-US': 'Searching...',
-               'en-GB': 'Searching...',
-               'de-DE': 'Suche...'
-          },
-          'results': {
-               'en-US': 'I found {0} {1} results... {2} of them are fairly close to you:',
-               'en-GB': 'I found {0} {1} results... {2} of them are fairly close to you:',
-               'de-DE': 'Ich habe {0} {1} Ergebnisse gefunden... {2} davon ganz in deiner N\xe4he:'
-          },
-          'no-results': {
-               'en-US': 'I\'m sorry but I did not find any results for {0} near you!',
-               'en-GB': 'I\'m sorry but I did not find any results for {0} near you!',
-               'de-DE': 'Es tut mir leid aber ich konnte keine Ergebnisse f\xfcr {0} in deiner N\xe4he finden'
-          }
+res = {
+     'searchString': {
+          'en-US': u'(find|show|where).* (nearest|nearby|closest) (.*)',
+          'en-GB': u'(find|show|where).* (nearest|nearby|closest) (.*)',
+          'de-DE': u'(finde|zeige|wo).* (nächste|nächstes|nächstes|nahe|in der nähe|in der umgebung) (.*)'
+     },
+     'searching': {
+          'en-US': u'Searching...',
+          'en-GB': u'Searching...',
+          'de-DE': u'Suche...'
+     },
+     'results': {
+          'en-US': u'I found {0} {1} results... {2} of them are fairly close to you:',
+          'en-GB': u'I found {0} {1} results... {2} of them are fairly close to you:',
+          'de-DE': u'Ich habe {0} {1} Ergebnisse gefunden... {2} davon ganz in deiner N\xe4he:'
+     },
+     'no-results': {
+          'en-US': u'I\'m sorry but I did not find any results for {0} near you!',
+          'en-GB': u'I\'m sorry but I did not find any results for {0} near you!',
+          'de-DE': u'Es tut mir leid aber ich konnte keine Ergebnisse für {0} in deiner Nähe finden'
      }
+}
+
+helpPhrases = {
+     'en-US': u'find nearest xy, show closest xy',
+     'en-GB': u'find nearest xy, show closest xy',
+     'de-DE': u'finde nächstes xy, finde in der umgebung xy'
+}
+
+
+class yelpSearch(Plugin):
+
 
      @register('en-US', res['searchString']['en-US'])
      @register('en-GB', res['searchString']['en-GB'])
      @register('de-DE', res['searchString']['de-DE'])
      def yelp_search(self, speech, language, regex):
-          self.say(yelpSearch.res['searching'][language],' ')
+          self.say(res['searching'][language],' ')
           mapGetLocation = self.getCurrentLocation()
           latitude = mapGetLocation.latitude
           longitude = mapGetLocation.longitude
@@ -76,11 +85,11 @@ class yelpSearch(Plugin):
                     count_min = min(len(response['businesses']),random_results)
                     count_max = max(len(response['businesses']),random_results)
                     view = AddViews(self.refId, dialogPhase="Completion")
-                    responseText = yelpSearch.res['results'][language].format(str(count_max), str(Title), str(count_min))
+                    responseText = res['results'][language].format(str(count_max), str(Title), str(count_min))
                     view.views = [AssistantUtteranceView(speakableText=responseText, dialogIdentifier="yelpSearchMap"), mapsnippet]
                     self.sendRequestWithoutAnswer(view)
                else:
-                    self.say(yelpSearch.res['no-results'][language].format(str(Title)))
+                    self.say(res['no-results'][language].format(str(Title)))
           else:
-               self.say(yelpSearch.res['no-results'][language].format(str(Title)))
+               self.say(res['no-results'][language].format(str(Title)))
           self.complete_request()
