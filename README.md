@@ -40,7 +40,8 @@ whereAmI:<BR>
 Description: Added WhereAmI fix. There was no mapObjects in SiriServerCore<BR>
 Requires mapObjects that is included in the siriObjects folder. <BR>
 <BR>
-<a href="https://github.com/cytec">cytec</a><HR>
+<a href="https://github.com/cytec">cytec</a><BR>
+More GERMAN Plugins can be found here: <a href="https://github.com/cytec/SiriServer-Plugins"> Plugins Repo</a><HR>
 SickbeardHistory:<BR>
 Description:<BR>
 Get your last 5 Downloaded Episodes from SickBeard (more to come)<BR>
