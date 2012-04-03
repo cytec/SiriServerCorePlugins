@@ -18,8 +18,20 @@ try:
 except ImportError: 
     raise NecessaryModuleNotFound('XBMC plugin will not work: JSONRPCLIB not installed. To install, run "easy_install jsonrpclib"')
 
+xbmc_host = APIKeyForAPI("xbmc_host")
+xbmc_port = APIKeyForAPI("xbmc_port")
+xbmc_user = APIKeyForAPI("xbmc_user")
+xbmc_pass = APIKeyForAPI("xbmc_pass")
+
+if xbmc_user == "":
+    xbmc_user = None
+
+if xbmc_pass = "":
+    xbmc_pass = None
+
+
 class XBMC_object():
-    def __init__(self, host='appletv.local', port='8080', username=None, password=None, mac_address=None):
+    def __init__(self, host=xbmc_host, port=xbmc_port, username=xbmc_user, password=xbmc_user, mac_address=None):
         self.username = username
         self.password = password
         self.port = port
